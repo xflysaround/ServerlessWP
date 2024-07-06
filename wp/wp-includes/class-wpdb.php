@@ -2044,6 +2044,9 @@ class wpdb {
 			if ( $this->dbh->connect_errno ) {
 				$this->dbh = null;
 
+				$dump = 'Host: '.$host.' Port: '.$port.' ULen: '.strlen($this->dbuser).' UPassLen: '.strlen($this->dbuser);
+				die($this->dbh->connect_errno . ': '.$dump);
+
 				/*
 				 * It's possible ext/mysqli is misconfigured. Fall back to ext/mysql if:
 				 *  - We haven't previously connected, and
