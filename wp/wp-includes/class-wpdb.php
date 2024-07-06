@@ -2031,8 +2031,8 @@ class wpdb {
 				$host = "[$host]";
 			}
 
-			mysqli_options( $this->dbh, MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
-			mysqli_ssl_set($this->dbh, null, null, '/tmp/ca-bundle.crt', null, null);
+			//mysqli_options( $this->dbh, MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
+			//mysqli_ssl_set($this->dbh, null, null, '/tmp/ca-bundle.crt', null, null);
 
 			if ( WP_DEBUG ) {
 				mysqli_real_connect( $this->dbh, $host, $this->dbuser, $this->dbpassword, null, $port, $socket, $client_flags );
@@ -2043,9 +2043,6 @@ class wpdb {
 
 			if ( $this->dbh->connect_errno ) {
 				$this->dbh = null;
-
-				$dump = 'Host: '.$host.' Port: '.$port.' ULen: '.strlen($this->dbuser).' UPassLen: '.strlen($this->dbuser);
-				die($this->dbh->connect_errno . ': '.$dump);
 
 				/*
 				 * It's possible ext/mysqli is misconfigured. Fall back to ext/mysql if:

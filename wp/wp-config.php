@@ -95,7 +95,7 @@ define('MYSQL_CLIENT_FLAGS', MYSQLI_CLIENT_SSL );
 $_SERVER['HTTPS'] = 'on';
 
 // customRemove
-define('WP_VERIFY_SSL', true);
+/*define('WP_VERIFY_SSL', true);
 define('WP_VERIFY_PEER', true);
 // Get CA bundle string from environment variable
 $caBundleStr = getenv('SSL_CA_BUNDLE');
@@ -108,7 +108,7 @@ if ($caBundleStr) {
 } else {
     // Handle error or provide a default behavior if CA bundle is not set
     error_log('SSL_CA_Bundle environment variable is not set');
-}
+}*/
 // END customRemove
 
 // Optional S3 credentials for file storage.
