@@ -94,6 +94,23 @@ define( 'WP_DEBUG', false );
 define('MYSQL_CLIENT_FLAGS', MYSQLI_CLIENT_SSL );
 $_SERVER['HTTPS'] = 'on';
 
+// customRemove
+define('WP_VERIFY_SSL', true);
+define('WP_VERIFY_PEER', true);
+// Get CA bundle string from environment variable
+$caBundleStr = getenv('SSL_CA_BUNDLE');
+
+// Check if CA bundle is set
+if ($caBundleStr) {
+    $pem = chunk_split($caBundleStr, 64, "\n"); // Chunk the string for better readability in the file
+    file_put_contents('/tmp/ca-bundle.crt', "-----BEGIN CERTIFICATE-----\n" . $pem . "-----END CERTIFICATE-----\n");
+    putenv('SSL_CERT_FILE=/tmp/ca-bundle.crt');
+} else {
+    // Handle error or provide a default behavior if CA bundle is not set
+    error_log('SSL_CA_Bundle environment variable is not set');
+}
+// END customRemove
+
 // Optional S3 credentials for file storage.
 if (isset($_ENV['S3_KEY_ID']) && isset($_ENV['S3_ACCESS_KEY'])) {
 	define( 'AS3CF_SETTINGS', serialize( array(
