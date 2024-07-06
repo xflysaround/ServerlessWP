@@ -105,6 +105,7 @@ if ($caBundleStr) {
     $pem = chunk_split($caBundleStr, 64, "\n"); // Chunk the string for better readability in the file
     file_put_contents('/tmp/ca-bundle.crt', "-----BEGIN CERTIFICATE-----\n" . $pem . "-----END CERTIFICATE-----\n");
     putenv('SSL_CERT_FILE=/tmp/ca-bundle.crt');
+    die('hello??');
 } else {
     // Handle error or provide a default behavior if CA bundle is not set
     error_log('SSL_CA_Bundle environment variable is not set');
