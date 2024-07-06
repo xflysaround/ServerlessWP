@@ -7,25 +7,47 @@ namespace Automattic\WooCommerce\Admin\RemoteInboxNotifications;
 
 defined( 'ABSPATH' ) || exit;
 
-use Automattic\WooCommerce\Admin\DeprecatedClassFacade;
+use Automattic\WooCommerce\Admin\DateTimeProvider\CurrentDateTimeProvider;
 
 /**
  * Rule processor for sending after a specified date/time.
- *
- * @deprecated 8.8.0
  */
-class PublishAfterTimeRuleProcessor extends DeprecatedClassFacade {
+class PublishAfterTimeRuleProcessor implements RuleProcessorInterface {
 	/**
-	 * The name of the non-deprecated class that this facade covers.
+	 * Constructor.
 	 *
-	 * @var string
+	 * @param DateTimeProviderInterface $date_time_provider The DateTime provider.
 	 */
-	protected static $facade_over_classname = 'Automattic\WooCommerce\Admin\RemoteSpecs\RuleProcessors\PublishAfterTimeRuleProcessor';
+	public function __construct( $date_time_provider = null ) {
+		$this->date_time_provider = null === $date_time_provider
+			? new CurrentDateTimeProvider()
+			: $date_time_provider;
+	}
 
 	/**
-	 * The version that this class was deprecated in.
+	 * Process the rule.
 	 *
-	 * @var string
+	 * @param object $rule         The specific rule being processed by this rule processor.
+	 * @param object $stored_state Stored state.
+	 *
+	 * @return bool Whether the rule passes or not.
 	 */
-	protected static $deprecated_in_version = '8.8.0';
+	public function process( $rule, $stored_state ) {
+		return $this->date_time_provider->get_now() >= new \DateTime( $rule->publish_after );
+	}
+
+	/**
+	 * Validates the rule.
+	 *
+	 * @param object $rule The rule to validate.
+	 *
+	 * @return bool Pass/fail.
+	 */
+	public function validate( $rule ) {
+		if ( ! isset( $rule->publish_after ) ) {
+			return false;
+		}
+
+		return true;
+	}
 }

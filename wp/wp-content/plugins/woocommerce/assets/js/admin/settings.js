@@ -261,11 +261,5 @@
 				available_payment_methods: payment_methods,
 			} );
 		} );
-
-		$( '.woocommerce-save-button.components-button' ).on( 'click', function ( e ) {
-			if ( ! $( this ).attr( 'disabled' ) ) {
-				$( this ).addClass( 'is-busy' );
-			}
-		} );
 	} );
 } )( jQuery, woocommerce_settings_params, wp );

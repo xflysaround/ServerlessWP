@@ -8,8 +8,7 @@ if ( ! function_exists( 'wc_admin_get_feature_config' ) ) {
 			'analytics' => true,
 			'product-block-editor' => true,
 			'coupons' => true,
-			'core-profiler' => true,
-			'customize-store' => true,
+			'core-profiler' => false,
 			'customer-effort-score-tracks' => true,
 			'import-products-task' => true,
 			'experimental-fashion-sample-products' => true,
@@ -23,9 +22,7 @@ if ( ! function_exists( 'wc_admin_get_feature_config' ) ) {
 			'new-product-management-experience' => false,
 			'onboarding' => true,
 			'onboarding-tasks' => true,
-			'pattern-toolkit-full-composability' => false,
-			'product-pre-publish-modal' => false,
-			'product-custom-fields' => true,
+			'product-variation-management' => false,
 			'remote-inbox-notifications' => true,
 			'remote-free-extensions' => true,
 			'payment-gateway-suggestions' => true,
@@ -38,8 +35,6 @@ if ( ! function_exists( 'wc_admin_get_feature_config' ) ) {
 			'wc-pay-promotion' => true,
 			'wc-pay-welcome-page' => true,
 			'async-product-editor-category-field' => false,
-			'launch-your-store' => false,
-			'product-editor-template-system' => false,
 		);
 	}
 }

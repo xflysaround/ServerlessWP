@@ -8,26 +8,58 @@ namespace Automattic\WooCommerce\Admin\RemoteInboxNotifications;
 
 defined( 'ABSPATH' ) || exit;
 
-use Automattic\WooCommerce\Admin\DeprecatedClassFacade;
-
 /**
  * Rule processor for publishing if wc-admin has been active for at least the
  * given number of seconds.
- *
- * @deprecated 8.8.0
  */
-class WCAdminActiveForRuleProcessor extends DeprecatedClassFacade {
+class WCAdminActiveForRuleProcessor implements RuleProcessorInterface {
 	/**
-	 * The name of the non-deprecated class that this facade covers.
+	 * Constructor
 	 *
-	 * @var string
+	 * @param object $wcadmin_active_for_provider Provides the amount of time wcadmin has been active for.
 	 */
-	protected static $facade_over_classname = 'Automattic\WooCommerce\Admin\RemoteSpecs\RuleProcessors\WCAdminActiveForRuleProcessor';
+	public function __construct( $wcadmin_active_for_provider = null ) {
+		$this->wcadmin_active_for_provider = null === $wcadmin_active_for_provider
+			? new WCAdminActiveForProvider()
+			: $wcadmin_active_for_provider;
+	}
 
 	/**
-	 * The version that this class was deprecated in.
+	 * Performs a comparison operation against the amount of time wc-admin has
+	 * been active for in days.
 	 *
-	 * @var string
+	 * @param object $rule         The rule being processed.
+	 * @param object $stored_state Stored state.
+	 *
+	 * @return bool The result of the operation.
 	 */
-	protected static $deprecated_in_version = '8.8.0';
+	public function process( $rule, $stored_state ) {
+		$active_for_seconds = $this->wcadmin_active_for_provider->get_wcadmin_active_for_in_seconds();
+		$rule_seconds       = $rule->days * DAY_IN_SECONDS;
+
+		return ComparisonOperation::compare(
+			$active_for_seconds,
+			$rule_seconds,
+			$rule->operation
+		);
+	}
+
+	/**
+	 * Validates the rule.
+	 *
+	 * @param object $rule The rule to validate.
+	 *
+	 * @return bool Pass/fail.
+	 */
+	public function validate( $rule ) {
+		if ( ! isset( $rule->days ) ) {
+			return false;
+		}
+
+		if ( ! isset( $rule->operation ) ) {
+			return false;
+		}
+
+		return true;
+	}
 }
