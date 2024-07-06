@@ -2031,6 +2031,7 @@ class wpdb {
 				$host = "[$host]";
 			}
 
+			mysqli_options( $this->dbh, MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
 			mysqli_ssl_set($this->dbh, null, null, '/tmp/ca-bundle.crt', null, null);
 
 			if ( WP_DEBUG ) {
